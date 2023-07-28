@@ -3,13 +3,14 @@ import { getStorage } from "firebase-admin/storage";
 import invariant from "tiny-invariant";
 import type { Post, FirestorePost, PostUser } from "~/types/publish";
 import { Timestamp } from "firebase-admin/firestore";
+import type { CollectionReference } from "firebase-admin/firestore";
 
-const db = {
+export const collections = {
   posts: () => dataPoint<FirestorePost>("posts"),
 };
 
 export async function getPosts() {
-  const posts = await db.posts().get();
+  const posts = await collections.posts().get();
   const postData = posts.docs.map((doc) => {
     return { ...doc.data(), id: doc.id };
   });
@@ -40,7 +41,7 @@ export async function createPost(postInfo: Post, image: File, user: PostUser) {
     .file(`posts/${image.name}`)
     .save(buffer, { contentType: image.type });
 
-  const post = await db.posts().add({
+  const post = await collections.posts().add({
     ...postInfo,
     image: bucket.file(`posts/${image.name}`).publicUrl(),
     user,
@@ -48,4 +49,22 @@ export async function createPost(postInfo: Post, image: File, user: PostUser) {
   });
 
   return post.id;
+}
+
+export async function createSlug(
+  title: string,
+  collection: CollectionReference<FirestorePost> = collections.posts(),
+) {
+  const slug = title
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)+/g, "");
+
+  const doc = await collection.where("slug", "==", slug).get();
+
+  if (doc.size) {
+    return `${slug}-${doc.size}`;
+  }
+
+  return slug;
 }
