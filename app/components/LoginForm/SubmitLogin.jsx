@@ -1,6 +1,6 @@
-import { Link } from "@remix-run/react";
 import { submitLoginStyle } from "./stylesLogin";
 import Button from "../Button/Button";
+import ButtonLink from "../ButtonLink/ButtonLink";
 
 export default function SubmitLogin({ isSubmit, changeSubmit }) {
   let buttonStyle;
@@ -24,19 +24,20 @@ export default function SubmitLogin({ isSubmit, changeSubmit }) {
       </Button>
 
       {isSubmit ? (
-        <a
-          className={`${submitLoginStyle.registerMain} ${submitLoginStyle.mediaQuery} ${submitLoginStyle.registerColor} ${submitLoginStyle.registerBorder}`}
+        <ButtonLink
+          className={`${submitLoginStyle.registerMain} ${submitLoginStyle.mediaQuery}`}
+          data-testid="to-register-disable"
         >
           Registrar
-        </a>
+        </ButtonLink>
       ) : (
-        <Link
+        <ButtonLink
           to="/join"
-          className={`${submitLoginStyle.registerMain} ${submitLoginStyle.mediaQuery} ${submitLoginStyle.registerColor} ${submitLoginStyle.registerBorder}`}
+          className={`${submitLoginStyle.registerMain} ${submitLoginStyle.mediaQuery}`}
           data-testid="to-register"
         >
           Registrar
-        </Link>
+        </ButtonLink>
       )}
     </div>
   );

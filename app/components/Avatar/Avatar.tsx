@@ -6,8 +6,6 @@ import type {
 import { getBackgroundColor, styleSizeAvatar, styleSizeText } from "./styles";
 import { useInitials } from "./useInitails";
 
-
-
 export default function Avatar({
   userName = "",
   photoUrl,

@@ -2,9 +2,9 @@ import { Form } from "@remix-run/react";
 import TextField from "../TextField/TextField";
 import { useState } from "react";
 import type { ChangeEvent, FormEvent } from "react";
+import Button from "../Button/Button";
 
-const btnStyles =
-  "block p-3 border border-1 rounded-lg font-bold bg-lime-500 text-white hover:bg-lime-600";
+const btnStyles = "font-bold";
 
 export default function SignUpForm({
   children,
@@ -93,9 +93,9 @@ export default function SignUpForm({
       {children}
 
       <footer className="flex gap-3">
-        <button className={btnStyles} type="submit">
+        <Button type="submit" color="green" className={btnStyles}>
           Registrarme
-        </button>
+        </Button>
 
         {moreActions}
       </footer>

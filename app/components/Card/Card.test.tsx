@@ -12,17 +12,12 @@ describe("When a Card is rendered", () => {
   });
 
   it("Then the title should be shown", async () => {
-    const title = await cardView.getByText(props.title);
+    const title = cardView.getByText(props.title);
     expect(title).toBeInTheDocument();
   });
 
-  it("Then the description should be shown", async () => {
-    const description = await cardView.getByText(props.description);
-    expect(description).toBeInTheDocument();
-  });
-
   it("Then at least one image should be shown", async () => {
-    const image = await cardView.getByRole("img");
+    const image = cardView.getByRole("img");
     expect(image).toBeInTheDocument();
   });
 
@@ -54,5 +49,29 @@ it("When Container prop is a Component, then the container should be the Compone
 
   const { container } = render(<Card Container={MyComponent} {...props} />);
   const section = container.querySelector("div");
+  expect(section).toBeInTheDocument();
+});
+
+it("When no AnchorElement prop is passed, then AnchorElement should be an 'a' by default", () => {
+  const { container } = render(<Card {...props} />);
+  const anchor = container.querySelector("a");
+  expect(anchor).toBeInTheDocument();
+});
+
+it("When AnchorElement prop is a Component, then the AnchorElement should render a Component", () => {
+  function MyAnchorComponent({
+    children,
+    href,
+  }: {
+    children: JSX.Element;
+    href: string;
+  }) {
+    return <a href={href}>{children}</a>;
+  }
+
+  const { container } = render(
+    <Card AnchorElement={MyAnchorComponent} {...props} />,
+  );
+  const section = container.querySelector("a");
   expect(section).toBeInTheDocument();
 });

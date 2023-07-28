@@ -21,7 +21,7 @@ const links = [
 
 export default function FooterNav({ user, navLinks = links }) {
   return (
-    <div className="mt-16">
+    <div className="mt-2">
       <footer
         data-testid="footer-nav"
         className="w-full items-center flex justify-around fixed bottom-0 p-2 bg-pw-green text-white"

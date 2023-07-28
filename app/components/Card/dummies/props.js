@@ -20,4 +20,5 @@ export const props = {
     minute: "numeric",
     hour12: true,
   }),
+  anchorProps: { href: "https://www.google.com" },
 };

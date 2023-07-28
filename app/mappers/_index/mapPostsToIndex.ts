@@ -22,6 +22,10 @@ export function mapPostsToIndex(posts: FirestorePost[]) {
         minute: "numeric",
         hour12: true,
       }),
+      user: item.user,
+      to:
+        item.slug ??
+        `${item.title?.toLowerCase()?.replace(/\s/g, "-")}-${item.id}`,
     };
   });
 }
