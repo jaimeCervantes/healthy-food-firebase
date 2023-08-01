@@ -13,7 +13,7 @@ const links = [
     icon: <GoHomeFill className={sizeIcon} />,
   },
   {
-    to: "/publish",
+    to: "/publicar",
     dataCy: "nav-publish",
     icon: <HiPencilAlt className={sizeIcon} />,
   },

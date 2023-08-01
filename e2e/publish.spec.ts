@@ -5,7 +5,7 @@ test.describe("When a registered user wants to publish a healthy food", () => {
   test.beforeEach(async ({ page }) => {
     await login(page);
 
-    await page.goto("/publish");
+    await page.goto("/publicar");
   });
 
   test("Then user enters the title, description, price and image", async ({
