@@ -43,6 +43,7 @@ export async function createPost(postInfo: Post, image: File, user: PostUser) {
 
   const post = await collections.posts().add({
     ...postInfo,
+    slug: await createSlug(postInfo.title, collections.posts()),
     image: bucket.file(`posts/${image.name}`).publicUrl(),
     user,
     createdAt: Timestamp.now(),
@@ -57,8 +58,10 @@ export async function createSlug(
 ) {
   const slug = title
     .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/(^-|-$)+/g, "");
+    .normalize("NFD") // Normal Form Decomposition, convierte un character en dos o más, por ejemplo, su forma base y su acento
+    .replace(/[\u0300-\u036f]/g, "") // Remueve los acentos de las letras (diacríticos)
+    .replace(/[^a-z0-9]+/g, "-") // Remueve los carácteres que no sean letras o números, (incluyendo acentos)
+    .replace(/(^-|-$)+/g, ""); // Remueve los guiones al inicio y al final
 
   const doc = await collection.where("slug", "==", slug).get();
 
