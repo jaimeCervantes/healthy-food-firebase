@@ -5,10 +5,14 @@ import { FaMapMarkerAlt } from "react-icons/fa";
 import { BiSolidPhoneCall, BiLeftArrowAlt } from "react-icons/bi";
 import ButtonLink from "~/components/ButtonLink/ButtonLink";
 import { Link } from "@remix-run/react";
+import { getPosts } from "~/firebase/models/posts.server";
 
 export async function loader({ params }: LoaderArgs) {
-  const { slug } = params;
-  return slug;
+  // const { slug } = params;
+  // return slug;
+  // const { slug } = params;
+  // const post = await getPost(slug || "");
+  // return json({ post });
 }
 
 export default function Post() {
