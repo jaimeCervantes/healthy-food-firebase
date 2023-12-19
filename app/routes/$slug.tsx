@@ -1,4 +1,4 @@
-import { json, type LoaderArgs } from "@remix-run/node";
+import { type LoaderArgs } from "@remix-run/node";
 import { useLoaderData } from "react-router";
 import Avatar from "~/components/Avatar/Avatar";
 import { FaMapMarkerAlt } from "react-icons/fa";
@@ -17,7 +17,6 @@ export async function loader({ params }: LoaderArgs) {
 export default function Post() {
   const post = useLoaderData();
   const { user } = post;
-  console.log(user);
 
   return (
     <section className="p-1">
