@@ -4,12 +4,9 @@ import invariant from "tiny-invariant";
 import type { Post, FirestorePost, PostUser } from "~/types/publish";
 import type { CollectionReference } from "firebase-admin/firestore";
 import { Timestamp } from "firebase-admin/firestore";
+import { getFinalString } from "~/functions/string";
 
 const db = {
-  posts: () => dataPoint<FirestorePost>("posts"),
-};
-
-export const collections = {
   posts: () => dataPoint<FirestorePost>("posts"),
 };
 
@@ -22,19 +19,24 @@ export async function getPosts() {
   return postData;
 }
 
-export async function getPost(
-  slug: string,
-  collection: CollectionReference<FirestorePost> = collections.posts(),
-) {
+export async function getPost(slug: string) {
   try {
-    const post = await collection.where("slug", "==", slug).get();
+    const posts = await db.posts().get();
+    const postData = posts.docs.map((doc) => {
+      return { ...doc.data(), id: doc.id };
+    });
 
-    if (post.empty) {
+    const requestPostId = getFinalString(slug, "-");
+
+    const requestPost = postData.filter((post) => post.id === requestPostId);
+
+    if (!requestPost) {
       return {
         errorMessage: "No se encontró el post",
       };
     }
-    return post?.docs[0]?.data();
+
+    return requestPost;
   } catch (error: any) {
     return {
       errorMessage: "Algo salio mal al buscar/obtener el post",

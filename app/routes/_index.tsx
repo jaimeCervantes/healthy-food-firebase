@@ -27,6 +27,8 @@ export default function Index() {
   const loaderData = useLoaderData();
   const { user, posts } = loaderData;
 
+  console.log(posts);
+
   return (
     <>
       <h1>Bienvenido. {user?.displayName ? `${user.displayName}.` : ""} </h1>
