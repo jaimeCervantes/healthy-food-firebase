@@ -2,7 +2,6 @@ import { dataPoint } from "../db.server";
 import { getStorage } from "firebase-admin/storage";
 import invariant from "tiny-invariant";
 import type { Post, FirestorePost, PostUser } from "~/types/publish";
-import type { CollectionReference } from "firebase-admin/firestore";
 import { Timestamp } from "firebase-admin/firestore";
 import { getFinalString } from "~/functions/string";
 
@@ -36,7 +35,7 @@ export async function getPost(slug: string) {
       };
     }
 
-    return requestPost;
+    return requestPost[0];
   } catch (error: any) {
     return {
       errorMessage: "Algo salio mal al buscar/obtener el post",
