@@ -25,7 +25,7 @@ test.describe("When the user login wants to look her profile ", () => {
   }) => {
     await page.getByText("Cerrar sesión").click();
     await expect(page.getByText("Bienvenido.")).toBeVisible();
-    await page.goto("/publish");
+    await page.goto("/publicar");
     await expect(page.getByText("INICIAR SESIÓN")).toBeVisible();
   });
 });

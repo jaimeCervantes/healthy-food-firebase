@@ -44,7 +44,7 @@ export default function PublishForm({ userName }) {
       <Form
         data-testid="form"
         method="POST"
-        action="/publish"
+        action="/publicar"
         className="p-4"
         encType="multipart/form-data"
       >
