@@ -3,6 +3,7 @@ import { getStorage } from "firebase-admin/storage";
 import invariant from "tiny-invariant";
 import type { Post, FirestorePost, PostUser } from "~/types/publish";
 import { Timestamp } from "firebase-admin/firestore";
+import { getFinalString } from "~/functions/string";
 
 const db = {
   posts: () => dataPoint<FirestorePost>("posts"),
@@ -15,6 +16,31 @@ export async function getPosts() {
   });
 
   return postData;
+}
+
+export async function getPost(slug: string) {
+  try {
+    const posts = await db.posts().get();
+    const postData = posts.docs.map((doc) => {
+      return { ...doc.data(), id: doc.id };
+    });
+
+    const requestPostId = getFinalString(slug, "-");
+
+    const requestPost = postData.filter((post) => post.id === requestPostId);
+
+    if (!requestPost) {
+      return {
+        errorMessage: "No se encontró el post",
+      };
+    }
+
+    return requestPost[0];
+  } catch (error: any) {
+    return {
+      errorMessage: "Algo salio mal al buscar/obtener el post",
+    };
+  }
 }
 
 export async function createPost(postInfo: Post, image: File, user: PostUser) {
